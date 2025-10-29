@@ -1,30 +1,21 @@
 import { useState } from 'react'
 /*import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import viteLogo from '/vite.svg'*/
 import './App.css'
-*/ 
 
 function Header() {
   return (
     <div>
-      <p><b>AnimeTrackZone</b>&nbsp;&nbsp;&nbsp;This site under development</p>
+      <p><span className="sitename"><b>AnimeTrackZone</b></span><span className="sitestatus" >This site under development</span></p>
     </div>
   );
 }
-
-
-
 function InputBox({userAnimeInput,setUserAnimeInput}) {
   const [userInput, setUserInput] = useState("");
   function saveInputText(event) {
     setUserInput(event.target.value)
-    console.log(event.target.value)
   }
   function completedClickFunction() {
-
-
-
-    console.log("clicked");
     setUserAnimeInput([
       ...userAnimeInput,
       {
@@ -33,6 +24,7 @@ function InputBox({userAnimeInput,setUserAnimeInput}) {
         id:crypto.randomUUID()
       }
     ])
+    setUserInput("");
   }
   function watchingClickFunction() {
     setUserAnimeInput([
@@ -43,6 +35,7 @@ function InputBox({userAnimeInput,setUserAnimeInput}) {
         id:crypto.randomUUID()
       }
     ])
+    setUserInput("");
   }
   function watchlistClickFunction() {
     setUserAnimeInput([
@@ -53,6 +46,7 @@ function InputBox({userAnimeInput,setUserAnimeInput}) {
         id:crypto.randomUUID()
       }
     ])
+    setUserInput("");
   }
   function partiallyClickFunction() {
     setUserAnimeInput([
@@ -63,6 +57,7 @@ function InputBox({userAnimeInput,setUserAnimeInput}) {
         id:crypto.randomUUID()
       }
     ])
+    setUserInput("");
   }
   function droppedClickFunction() {
     setUserAnimeInput([
@@ -73,18 +68,23 @@ function InputBox({userAnimeInput,setUserAnimeInput}) {
         id:crypto.randomUUID()
       }
     ])
+    setUserInput("");
   }
   return (
     <div>
       <input 
         placeholder="Enter an anime.."
         onChange = {saveInputText}
+        value={userInput}
+        className="animeinputbox"
       />
-      <button onClick = {completedClickFunction}>Add to Completed</button>
-      <button onClick = {watchingClickFunction}>Currently Watching</button>
-      <button onClick = {watchlistClickFunction}>Add to Watchlist</button>
-      <button onClick = {partiallyClickFunction}>Partially Completed</button>
-      <button onClick = {droppedClickFunction}>Dropped</button>
+      <div>
+      <button onClick = {completedClickFunction} className="completedB">Add to Completed</button>
+      <button onClick = {watchingClickFunction} className="watchingB">Currently Watching</button>
+      <button onClick = {watchlistClickFunction} className="watchlistB">Add to Watchlist</button>
+      <button onClick = {partiallyClickFunction} className="partiallyB">Partially Completed</button>
+      <button onClick = {droppedClickFunction} className="droppedB">Dropped</button>
+      </div>
     </div>
   );
 }
@@ -101,7 +101,7 @@ function CenterFeature({userAnimeInput,setUserAnimeInput}) {
 
 function CompletedList({animename}) {
   return(
-  <div>
+  <div className="useranimecompleted">
     {animename}
   </div>
   );
@@ -111,43 +111,42 @@ function Display({userAnimeInput,setUserAnimeInput}) {
     <>
     {userAnimeInput.map((store) => {
       return(
-      <>
-        {(store.category) === "C" && (
+        (store.category) === "C" && (
           <CompletedList animename={store.animename} key={store.id}/>
-        
-        
-        
-        
-        )}
-
-      </>
+        )
+        /* (store.category) === "WA" && (
+          <CompletedList animename={store.animename} key={store.id}/>
+        )
+        (store.category) === "WL" && (
+          <CompletedList animename={store.animename} key={store.id}/>
+        )
+        (store.category) === "PC" && (
+          <CompletedList animename={store.animename} key={store.id}/>
+        )
+         (store.category) === "D" && (
+          <CompletedList animename={store.animename} key={store.id}/>
+        ) */
       )
-
     })}
-    
     </>
   );
 }
 function App() {
   const [count, setCount] = useState(0)
-
-
   const [userAnimeInput, setUserAnimeInput] = useState([]);
   return (
     <>
       <Header />
       <div>
-        <h1>Welcome to AnimeTrackZone</h1>
+        <h1>Welcome to AnimeTrackZone<button className="likeB">Like</button></h1>
       </div>
       <CenterFeature
         userAnimeInput={userAnimeInput}
         setUserAnimeInput={setUserAnimeInput}
       /> 
-
       <Display 
         userAnimeInput={userAnimeInput}
         setUserAnimeInput={setUserAnimeInput}
-
       />
     </>
   )
